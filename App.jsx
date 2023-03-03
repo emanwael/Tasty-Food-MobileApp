@@ -1,4 +1,4 @@
-import { StatusBar } from "expo-status-bar";
+//import { StatusBar } from "expo-status-bar";
 import { View } from "react-native";
 import { StyleSheet } from "react-native";
 import RestaurantScreen from "./Components/restaurantScreen";
@@ -14,6 +14,7 @@ import FoodScreen from "./Components/foodScreen";
 import CartScreen from "./Components/CartScreen";
 import { Provider } from "react-redux";
 import store from "./store";
+import AccountScreen from './Components/accountScreen';
 
 const Stack = createStackNavigator();
 
@@ -23,6 +24,7 @@ export default function App() {
     <Provider store={store}>
       <NavigationContainer>
         <Stack.Navigator screenOptions={{ headerShown: false }}>
+          <Stack.Screen name="AccountScreen" component={AccountScreen} />
           <Stack.Screen name="welcome" component={WelcomeScreen} />
           <Stack.Screen name="Signin" component={Signin} />
           <Stack.Screen name="Signup" component={Signup} />
@@ -32,7 +34,7 @@ export default function App() {
 
         </Stack.Navigator>
       </NavigationContainer></Provider>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
