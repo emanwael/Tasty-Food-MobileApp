@@ -55,8 +55,8 @@ export default function AccountScreen(){
           <Image style={styles.profileImage} source={Images.AVATAR} />
         </View>
         <View style={styles.profileTextContainer}>
-          <Text style={styles.nameText}>Ameen Farook</Text>
-          <Text style={styles.emailText}>ameeen.faroook@gmail.com</Text>
+          <Text style={styles.nameText}>Safaa Elsayed</Text>
+          <Text style={styles.emailText}>safaa@gmail.com</Text>
         </View>
       </View>
       <View style={styles.menuContainer}>
