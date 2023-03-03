@@ -4,23 +4,25 @@ import { TouchableOpacity } from "react-native";
 import { ScrollView } from "react-native";
 import { Text } from "react-native";
 import { View } from "react-native";
-
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Feather from 'react-native-vector-icons/Feather';
 
 import Colors from "../assets/Styles/Colors";
 import Mock from "../assets/Styles/Mock";
+import { StyleSheet } from "react-native";
+import { useState } from "react";
+import Separator from "../assets/Styles/Separator";
 
 const sortStyle = isActive =>
   isActive
     ? styles.sortListItem
-    : {...styles.sortListItem, borderBottomColor: Colors.DEFAULT_WHITE};
+    : { ...styles.sortListItem, borderBottomColor: Colors.DEFAULT_WHITE };
 
 export default function HomeScreen() {
-    const [activeCategory, setActiveCategory] = useState();
-    const [restaurants, setRestaurants] = useState(null);
-    const [activeSortItem, setActiveSortItem] = useState('recent');
+  const [activeCategory, setActiveCategory] = useState();
+  const [restaurants, setRestaurants] = useState(null);
+  const [activeSortItem, setActiveSortItem] = useState('recent');
   return (
     <View style={styles.container}>
       <StatusBar
@@ -48,7 +50,7 @@ export default function HomeScreen() {
             name="bell"
             size={24}
             color={Colors.DEFAULT_WHITE}
-            style={{position: 'absolute', right: 0}}
+            style={{ position: 'absolute', right: 0 }}
           />
           <View style={styles.alertBadge}>
             <Text style={styles.alertBadgeText}>12</Text>
@@ -67,11 +69,11 @@ export default function HomeScreen() {
             name="sliders"
             size={20}
             color={Colors.DEFAULT_YELLOW}
-            style={{marginRight: 10}}
+            style={{ marginRight: 10 }}
           />
         </View>
         <View style={styles.categoriesContainer}>
-          {Mock.CATEGORIES.map(({name, logo}) => (
+          {Mock.CATEGORIES.map(({ name, logo }) => (
             <CategoryMenuItem
               key={name}
               name={name}
@@ -95,11 +97,11 @@ export default function HomeScreen() {
             ListHeaderComponent={() => <Separator width={20} />}
             ListFooterComponent={() => <Separator width={20} />}
             ItemSeparatorComponent={() => <Separator width={10} />}
-            renderItem={({item}) => (
+            renderItem={({ item }) => (
               <RestaurantCard
                 {...item}
                 navigate={restaurantId =>
-                  navigation.navigate('Restaurant', {restaurantId})
+                  navigation.navigate('Restaurant', { restaurantId })
                 }
               />
             )}
@@ -175,14 +177,12 @@ const styles = StyleSheet.create({
     marginLeft: 5,
     fontSize: 13,
     lineHeight: 13 * 1.4,
-    fontFamily: Fonts.POPPINS_MEDIUM,
   },
   selectedLocationText: {
     color: Colors.DEFAULT_YELLOW,
     marginLeft: 5,
     fontSize: 14,
     lineHeight: 14 * 1.4,
-    fontFamily: Fonts.POPPINS_MEDIUM,
   },
   alertBadge: {
     borderRadius: 32,
@@ -199,7 +199,6 @@ const styles = StyleSheet.create({
     color: Colors.DEFAULT_WHITE,
     fontSize: 10,
     lineHeight: 10 * 1.4,
-    fontFamily: Fonts.POPPINS_BOLD,
   },
   searchContainer: {
     backgroundColor: Colors.DEFAULT_WHITE,
@@ -220,7 +219,6 @@ const styles = StyleSheet.create({
     color: Colors.DEFAULT_GREY,
     fontSize: 16,
     lineHeight: 16 * 1.4,
-    fontFamily: Fonts.POPPINS_MEDIUM,
     marginLeft: 10,
   },
   categoriesContainer: {
@@ -246,13 +244,11 @@ const styles = StyleSheet.create({
     color: Colors.DEFAULT_BLACK,
     fontSize: 16,
     lineHeight: 16 * 1.4,
-    fontFamily: Fonts.POPPINS_MEDIUM,
   },
   listHeaderSubtitle: {
     color: Colors.DEFAULT_YELLOW,
     fontSize: 13,
     lineHeight: 13 * 1.4,
-    fontFamily: Fonts.POPPINS_MEDIUM,
   },
   sortListContainer: {
     flexDirection: 'row',
@@ -274,6 +270,5 @@ const styles = StyleSheet.create({
     color: Colors.DEFAULT_BLACK,
     fontSize: 13,
     lineHeight: 13 * 1.4,
-    fontFamily: Fonts.POPPINS_SEMI_BOLD,
   },
 });
