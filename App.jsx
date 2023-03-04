@@ -4,8 +4,8 @@ import { StyleSheet } from "react-native";
 import RestaurantScreen from "./Components/restaurantScreen";
 import Signin from "./Components/signin";
 import Signup from "./Components/signup";
-import MainScreen from "./Components/mainScreen";
-import HomeScreen from "./Components/homeScreen";
+// import MainScreen from "./Components/mainScreen";
+// import HomeScreen from "./Components/homeScreen";
 
 import WelcomeScreen from "./Components/welcomeScreen";
 import { NavigationContainer } from "@react-navigation/native";
@@ -15,13 +15,9 @@ import CartScreen from "./Components/CartScreen";
 import { Provider } from "react-redux";
 import store from "./store";
 import AccountScreen from './Components/accountScreen';
-
+import HomeTabs from "./Components/buttonTab"
 const Stack = createStackNavigator();
-import HomeScreen from "./Components/homeScreen";
-// import Signin from "./Components/signin";
-// import Signup from "./Components/signup";
-// import MainScreen from "./Components/mainScreen";
-// import WelcomeScreen from "./Components/welcomeScreen";
+
 
 export default function App() {
   return (
@@ -29,13 +25,18 @@ export default function App() {
     <Provider store={store}>
       <NavigationContainer>
         <Stack.Navigator screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="AccountScreen" component={AccountScreen} />
+          <Stack.Screen name="HomeTabs" component={HomeTabs} />
+
           <Stack.Screen name="welcome" component={WelcomeScreen} />
           <Stack.Screen name="Signin" component={Signin} />
           <Stack.Screen name="Signup" component={Signup} />
-          <Stack.Screen name="homeScreen" component={HomeScreen} />
+          {/**          
+           * <Stack.Screen name="HomeScreen" component={HomeScreen} />
+            <Stack.Screen name="CartScreen" component={CartScreen} /> 
+            <Stack.Screen name="AccountScreen" component={AccountScreen} />
+*/ }
+
           <Stack.Screen name="foodscreen" component={FoodScreen} />
-          <Stack.Screen name="CartScreen" component={CartScreen} />
 
         </Stack.Navigator>
       </NavigationContainer></Provider>
