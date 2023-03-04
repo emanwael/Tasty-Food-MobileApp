@@ -40,15 +40,6 @@ export default function App() {
         </Stack.Navigator>
       </NavigationContainer></Provider>
   )
-    <View style={styles.container}>
-      <HomeScreen></HomeScreen>
-      {/* <Signin></Signin> */}
-      {/* <Signup></Signup> */}
-      {/* <MainScreen></MainScreen> */}
-      {/* <WelcomeScreen></WelcomeScreen> */}
-      <StatusBar style="auto" />
-    </View>
-  );
 }
 
 const styles = StyleSheet.create({
