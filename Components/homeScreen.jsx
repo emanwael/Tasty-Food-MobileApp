@@ -4,7 +4,6 @@ import { TouchableOpacity } from "react-native";
 import { ScrollView } from "react-native";
 import { Text } from "react-native";
 import { View } from "react-native";
-
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Feather from 'react-native-vector-icons/Feather';
@@ -23,7 +22,7 @@ import RestaurantMediumCard from "./RestaurantMediumCard";
 const sortStyle = isActive =>
   isActive
     ? styles.sortListItem
-    : {...styles.sortListItem, borderBottomColor: Colors.DEFAULT_WHITE};
+    : { ...styles.sortListItem, borderBottomColor: Colors.DEFAULT_WHITE };
 
 export default function HomeScreen({navigation}) {
     const [activeCategory, setActiveCategory] = useState();
@@ -88,7 +87,7 @@ export default function HomeScreen({navigation}) {
             name="sliders"
             size={20}
             color={Colors.DEFAULT_YELLOW}
-            style={{marginRight: 10}}
+            style={{ marginRight: 10 }}
           />
         </View>
         <View style={styles.categoriesContainer}>
@@ -120,11 +119,11 @@ export default function HomeScreen({navigation}) {
             ListHeaderComponent={() => <Separator width={20} />}
             ListFooterComponent={() => <Separator width={20} />}
             ItemSeparatorComponent={() => <Separator width={10} />}
-            renderItem={({item}) => (
+            renderItem={({ item }) => (
               <RestaurantCard
                 {...item}
                 navigate={restaurantId =>
-                  navigation.navigate('Restaurant', {restaurantId})
+                  navigation.navigate('Restaurant', { restaurantId })
                 }
               />
             )}

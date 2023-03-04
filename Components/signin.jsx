@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react'
-import { Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Image, StyleSheet, Text, TextInput, TouchableOpacity, View, ScrollView } from 'react-native';
 import Colors from '../assets/Styles/Colors';
 import Display from '../assets/Styles/Display';
 import Images from '../assets/Styles/Images';
@@ -8,29 +8,33 @@ import Separator from '../assets/Styles/Separator';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Feather from 'react-native-vector-icons/Feather';
 
-export default function Signin() {
-    const [isPasswordShow, setIsPasswordShow] = useState(false);
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
-    const [isLoading, setIsLoading] = useState(false);
-    const [errorMessage, setErrorMessage] = useState('');
 
-    return (
-        <View style={styles.container}>
-          <StatusBar
-            barStyle="dark-content"
-            backgroundColor={Colors.DEFAULT_WHITE}
-            translucent
+export default function Signin({ navigation }) {
+  const [isPasswordShow, setIsPasswordShow] = useState(false);
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+
+  return (
+    <>
+
+      <View style={styles.container}>
+        <StatusBar
+          barStyle="dark-content"
+          backgroundColor={Colors.DEFAULT_WHITE}
+          translucent
+        />
+        <Separator height={StatusBar.currentHeight} />
+        <View style={styles.headerContainer}>
+          <Ionicons
+            name="chevron-back-outline"
+            size={30}
+            onPress={() => navigation.goBack()}
           />
-          <Separator height={StatusBar.currentHeight} />
-          <View style={styles.headerContainer}>
-            <Ionicons
-              name="chevron-back-outline"
-              size={30}
-            //   onPress={() => navigation.goBack()}
-            />
-            <Text style={styles.headerTitle}>Sign In</Text>
-          </View>
+          <Text style={styles.headerTitle}>Sign In</Text>
+        </View>
+        <ScrollView>
           <Text style={styles.title}>Welcome</Text>
           <Text style={styles.content}>
             Enter your username and password, and enjoy ordering food
@@ -41,7 +45,7 @@ export default function Signin() {
                 name="user"
                 size={22}
                 color={Colors.DEFAULT_GREY}
-                style={{marginRight: 10}}
+                style={{ marginRight: 10 }}
               />
               <TextInput
                 placeholder="Username"
@@ -59,7 +63,7 @@ export default function Signin() {
                 name="lock"
                 size={22}
                 color={Colors.DEFAULT_GREY}
-                style={{marginRight: 10}}
+                style={{ marginRight: 10 }}
               />
               <TextInput
                 placeholder="Password"
@@ -72,8 +76,8 @@ export default function Signin() {
                 name={isPasswordShow ? 'eye' : 'eye-off'}
                 size={22}
                 color={Colors.DEFAULT_GREY}
-                style={{marginRight: 10}}
-                // onPress={() => setIsPasswordShow(!isPasswordShow)}
+                style={{ marginRight: 10 }}
+              // onPress={() => setIsPasswordShow(!isPasswordShow)}
               />
             </View>
           </View>
@@ -86,13 +90,13 @@ export default function Signin() {
             <Text
               style={styles.forgotPasswordText}
             //   onPress={() => navigation.navigate('ForgotPassword')}
-              >
+            >
               Forgot Password
             </Text>
           </View>
           <TouchableOpacity
             style={styles.signinButton}
-            // onPress={() => signIn()}
+            onPress={() => navigation.navigate('foodscreen')}
             activeOpacity={0.8}>
             {isLoading ? (
               <Image source={Images.LOADING} autoPlay />
@@ -104,7 +108,7 @@ export default function Signin() {
             <Text style={styles.accountText}>Don't have an account?</Text>
             <Text
               style={styles.signupText}
-            //   onPress={() => navigation.navigate('Signup')}
+              onPress={() => navigation.navigate('Signup')}
             >
               Sign Up
             </Text>
@@ -128,42 +132,45 @@ export default function Signin() {
               <Text style={styles.socialSigninButtonText}>Connect with Google</Text>
             </View>
           </TouchableOpacity>
-        </View>
-      );
-    };
-    
+        </ScrollView>
+      </View>
+    </>
+  );
+};
+
 const styles = StyleSheet.create({
-    container: {
+  container: {
     flex: 1,
     backgroundColor: Colors.DEFAULT_WHITE,
-    },
-    headerContainer: {
+    marginBottom: 10
+  },
+  headerContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     paddingVertical: 10,
     paddingHorizontal: 20,
-    },
-    headerTitle: {
+  },
+  headerTitle: {
     fontSize: 20,
     lineHeight: 20 * 1.4,
     width: Display.setWidth(80),
     textAlign: 'center',
-    marginTop:100,
-    },
-    title: {
+    marginTop: 50
+  },
+  title: {
     fontSize: 20,
     lineHeight: 20 * 1.4,
-    marginTop: 50,
+    marginTop: 30,
     marginBottom: 10,
     marginHorizontal: 20,
-    },
-    content: {
+  },
+  content: {
     fontSize: 20,
-    marginTop: 10,
+
     marginBottom: 20,
     marginHorizontal: 20,
-    },
-    inputContainer: {
+  },
+  inputContainer: {
     backgroundColor: Colors.LIGHT_GREY,
     paddingHorizontal: 10,
     marginHorizontal: 20,
@@ -171,37 +178,37 @@ const styles = StyleSheet.create({
     borderWidth: 0.5,
     borderColor: Colors.LIGHT_GREY2,
     justifyContent: 'center',
-    },
-    inputSubContainer: {
+  },
+  inputSubContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    },
-    inputText: {
+  },
+  inputText: {
     fontSize: 18,
     textAlignVertical: 'center',
     padding: 0,
     height: Display.setHeight(6),
     color: Colors.DEFAULT_BLACK,
     flex: 1,
-    },
-    forgotPasswordContainer: {
+  },
+  forgotPasswordContainer: {
     marginHorizontal: 20,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    },
-    rememberMeText: {
+  },
+  rememberMeText: {
     marginLeft: 10,
     fontSize: 12,
     lineHeight: 12 * 1.4,
     color: Colors.DEFAULT_GREY,
-    },
-    forgotPasswordText: {
+  },
+  forgotPasswordText: {
     fontSize: 12,
     lineHeight: 12 * 1.4,
     color: Colors.DEFAULT_GREEN,
-    },
-    signinButton: {
+  },
+  signinButton: {
     backgroundColor: Colors.DEFAULT_GREEN,
     borderRadius: 8,
     marginHorizontal: 20,
@@ -209,39 +216,39 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: 20,
-    },
-    signinButtonText: {
+  },
+  signinButtonText: {
     fontSize: 18,
     lineHeight: 18 * 1.4,
     color: Colors.DEFAULT_WHITE,
-    },
-    signupContainer: {
+  },
+  signupContainer: {
     marginHorizontal: 20,
     justifyContent: 'center',
     paddingVertical: 20,
     flexDirection: 'row',
     alignItems: 'center',
-    },
-    accountText: {
+  },
+  accountText: {
     fontSize: 13,
     lineHeight: 13 * 1.4,
     color: Colors.DEFAULT_BLACK,
-    },
-    signupText: {
+  },
+  signupText: {
     fontSize: 13,
     lineHeight: 13 * 1.4,
     color: Colors.DEFAULT_GREEN,
-    
+
     marginLeft: 5,
-    },
-    orText: {
+  },
+  orText: {
     fontSize: 15,
     lineHeight: 15 * 1.4,
     color: Colors.DEFAULT_BLACK,
     marginLeft: 5,
     alignSelf: 'center',
-    },
-    facebookButton: {
+  },
+  facebookButton: {
     backgroundColor: Colors.FABEBOOK_BLUE,
     paddingVertical: 15,
     marginHorizontal: 20,
@@ -249,47 +256,47 @@ const styles = StyleSheet.create({
     marginVertical: 20,
     justifyContent: 'center',
     alignItems: 'center',
-    },
-    googleButton: {
+  },
+  googleButton: {
     backgroundColor: Colors.GOOGLE_BLUE,
     paddingVertical: 15,
     marginHorizontal: 20,
     borderRadius: 8,
     justifyContent: 'center',
     alignItems: 'center',
-    },
-    signinButtonLogo: {
+  },
+  signinButtonLogo: {
     height: 18,
     width: 18,
-    },
-    signinButtonLogoContainer: {
+  },
+  signinButtonLogoContainer: {
     backgroundColor: Colors.DEFAULT_WHITE,
     padding: 2,
     borderRadius: 3,
     position: 'absolute',
     left: 25,
-    },
-    socialButtonsContainer: {
+  },
+  socialButtonsContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
     width: '100%',
-    },
-    socialSigninButtonText: {
+  },
+  socialSigninButtonText: {
     color: Colors.DEFAULT_WHITE,
     fontSize: 13,
     lineHeight: 13 * 1.4,
-    },
-    toggleContainer: {
+  },
+  toggleContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    },
-    errorMessage: {
+  },
+  errorMessage: {
     fontSize: 10,
     lineHeight: 10 * 1.4,
     color: Colors.DEFAULT_RED,
     marginHorizontal: 20,
     marginTop: 3,
     marginBottom: 10,
-    },
+  },
 });
