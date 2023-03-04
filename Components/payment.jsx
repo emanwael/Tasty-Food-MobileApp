@@ -7,18 +7,18 @@ import {
   StyleSheet,
   TextInput,
 } from "react-native";
+import axios from "axios";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { cartActions } from "../store/slices/cart";
-import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import { useState } from "react";
+import { CardField, useStripe } from "@stripe/stripe-react-native";
+import baseUrl from "../store/slices/baseUrl";
+
 export default function Payment() {
   const { cartItems, totalPrice } = useSelector((state) => state.cartSlice);
   const { clearItemsCart } = cartActions;
   const dispatch = useDispatch();
-
-  const stripe = useStripe();
-  const element = useElements();
 
   const [isProcessing, setProcessing] = useState(false);
   const [Error, setError] = useState("");
@@ -29,38 +29,18 @@ export default function Payment() {
     phone: "",
     address: "",
   });
+  const { confirmPayment } = useStripe();
+  const fetchCard = async () => {
+    const response = await axios.post(`http://${baseUrl}:5100/payments`, {
+      amount: 2 * 100,
+    });
 
-  // useEffect(() => {
-  //   setCredentials({
-  //     name: customer_name,
-  //     phone: phone_number,
-  //     address,
-  //   });
-  // }, []);
-
-  //
-  // };
-  // const handleChange = (e) => {
-  //   const { value, name } = e.target;
-  //   setCredentials({ ...credentials, [name]: value });
-  //   console.log(credentials);
-  //   // console.log(credentials);
-  // };
-
-  const handleCardChange = (e) => {
-    if (e.error) {
-      console.log("erorrrrrrrrrr", e.error);
-      return setError(e.error.message);
-    }
-    setError("");
+    const clientSecret = await response.data;
+    console.log("erorrrrrrr", clientSecret);
+    return clientSecret;
   };
-
-  const handlePayment = async (e) => {
-    e.preventDefault();
-    setProcessing(true);
+  const handlePayPress = async () => {
     setSuccess("Processing...");
-
-    const cardElement = element.getElement("card");
     const { name, phone, address } = credentials;
     const billingInfo = {
       name,
@@ -69,41 +49,19 @@ export default function Payment() {
         line1: address,
       },
     };
+    // Create a payment method
 
-    try {
-      const paymentIntent = await axios.post("http://localhost:5100/payments", {
-        amount: totalPrice * 100,
-      });
+    const clientSecret = await fetchCard();
+    const { paymentMethod, error } = await confirmPayment(clientSecret, {
+      // type: "Card",
+      paymentMethodType: "Card",
+      billingDetails: billingInfo,
+    });
 
-      const paymentMethodObj = await stripe.createPaymentMethod({
-        type: "card",
-        card: cardElement,
-        billing_details: billingInfo,
-      });
-
-      if (paymentMethodObj.error) {
-        console.log("(paymentMethodObj error", paymentMethodObj.error);
-
-        setError(paymentMethodObj.error.message);
-        setProcessing(false);
-        setSuccess("Pay");
-        return;
-      }
-
-      const confirmedPayment = await stripe.confirmCardPayment(
-        paymentIntent.data,
-        {
-          payment_method: paymentMethodObj.paymentMethod.id,
-        }
-      );
-      if (confirmedPayment.error) {
-        console.log("confirm error", confirmedPayment.error);
-        setError(confirmedPayment.error.message);
-        setProcessing(false);
-        setSuccess("Pay");
-        return;
-      }
-
+    if (error) {
+      console.log("Payment failed:", error);
+    } else {
+      console.log("Payment successful:", paymentMethod);
       setSuccess("Success! Payment is Complete");
       setTimeout(() => {
         setSuccess("Pay");
@@ -113,17 +71,21 @@ export default function Payment() {
           phone: "",
           address: "",
         });
-        cardElement.clear();
         dispatch(clearItemsCart());
-        navigator("/home");
       }, 5000);
-    } catch (error) {
-      console.log("error", error);
-      setError(error.message);
-      setProcessing(false);
-      setSuccess("Pay");
+
+      // Handle successful payment
     }
   };
+
+  // useEffect(() => {
+  //   setCredentials({
+  //     name: customer_name,
+  //     phone: phone_number,
+  //     address,
+  //   });
+  // }, []);
+
   return (
     <View style={styles.container}>
       <Text style={styles.text}>Payment</Text>
@@ -182,10 +144,23 @@ export default function Payment() {
         }}
         onChange={handleCardChange}
       /> */}
+      <CardField
+        postalCodeEnabled={false}
+        placeholder={{
+          number: "4242 4242 4242 4242",
+        }}
+        style={{
+          width: "100%",
+          height: 50,
+          margin: 10,
+          marginVertical: 10,
+        }}
+      />
       {Error && <Text>{Error}</Text>}
       <Text style={styles.labelStyle}>${totalPrice}</Text>
-      <TouchableOpacity style={styles.button} onPress={handlePayment}>
-        <Text style={styles.buttonText}>Pay Now</Text>
+
+      <TouchableOpacity style={styles.button} onPress={handlePayPress}>
+        <Text style={styles.buttonText}>{Success}</Text>
       </TouchableOpacity>
     </View>
   );
