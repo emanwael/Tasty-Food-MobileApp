@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import baseUrl from "./baseUrl";
 
 
 
@@ -10,7 +11,7 @@ const initialState = {
     error: null,
     isLoading: false
 }
-const restaurantUrl = "http://localhost:5100/restaurants";
+const restaurantUrl = `http://${baseUrl}:5100/restaurants`;
 const mealUrl = "http://localhost:5100/meals";
 
 
@@ -19,7 +20,7 @@ export const getAllMeals = createAsyncThunk("myMenu/getAllMenu", async (id, thun
     const { rejectWithValue } = thunkAPI;
     try {
         const response = await axios.get(`${restaurantUrl}/${id}`);
-        console.log(response.data)
+        // console.log(response.data)
         return response.data;
 
     } catch (error) {

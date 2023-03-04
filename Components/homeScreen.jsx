@@ -4,42 +4,53 @@ import { TouchableOpacity } from "react-native";
 import { ScrollView } from "react-native";
 import { Text } from "react-native";
 import { View } from "react-native";
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import Feather from 'react-native-vector-icons/Feather';
+import Ionicons from "react-native-vector-icons/Ionicons";
+import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+import Feather from "react-native-vector-icons/Feather";
 
 import Colors from "../assets/Styles/Colors";
-import Display from '../assets/Styles/Display';
+import Display from "../assets/Styles/Display";
 
 import Mock from "../assets/Styles/Mock";
 import Separator from "../assets/Styles/Separator";
 import RestaurantCard from "./restaurantCard";
 import { StyleSheet } from "react-native";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import CategoryMenuItem from "./CategoryMenuItem";
 import RestaurantMediumCard from "./RestaurantMediumCard";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllrestaurant } from "../store/slices/resturants";
+import axios from "axios";
 
-const sortStyle = isActive =>
+const sortStyle = (isActive) =>
   isActive
     ? styles.sortListItem
     : { ...styles.sortListItem, borderBottomColor: Colors.DEFAULT_WHITE };
 
-export default function HomeScreen({navigation}) {
-    const [activeCategory, setActiveCategory] = useState();
-    const [restaurants, setRestaurants] = useState(null);
-    const [activeSortItem, setActiveSortItem] = useState('recent');
+export default function HomeScreen(props) {
+  const { navigation } = props;
+  const [activeCategory, setActiveCategory] = useState();
+  const [activeSortItem, setActiveSortItem] = useState("recent");
+  const { restaurant } = useSelector((state) => state.resturantSlice);
 
+  // const { restaurant_name, _id, logo } = restaurant[0];
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getAllrestaurant());
+    console.log("hikkkkkk");
+  }, []);
   //backend
-    // useEffect(() => {
-    //   const unsubscribe = navigation.addListener('focus', () => {
-    //     RestaurantService.getRestaurants().then(response => {
-    //       if (response?.status) {
-    //         setRestaurants(response?.data);
-    //       }
-    //     });
-    //   });
-    //   return unsubscribe;
-    // }, []);
+  // useEffect(() => {
+  //   const unsubscribe = navigation.addListener('focus', () => {
+  //     RestaurantService.getRestaurants().then(response => {
+  //       if (response?.status) {
+  //         setRestaurants(response?.data);
+  //       }
+  //     });
+  //   });
+  //   return unsubscribe;
+  // }, []);
 
   return (
     <View style={styles.container}>
@@ -68,7 +79,7 @@ export default function HomeScreen({navigation}) {
             name="bell"
             size={24}
             color={Colors.DEFAULT_WHITE}
-            style={{position: 'absolute', right: -30 , top: 30}}
+            style={{ position: "absolute", right: -30, top: 30 }}
           />
           <View style={styles.alertBadge}>
             <Text style={styles.alertBadgeText}>12</Text>
@@ -131,57 +142,65 @@ export default function HomeScreen({navigation}) {
         </View>
         <View style={styles.sortListContainer}>
           <TouchableOpacity
-            style={sortStyle(activeSortItem === 'recent')}
+            style={sortStyle(activeSortItem === "recent")}
             activeOpacity={0.8}
-            onPress={() => setActiveSortItem('recent')}>
+            onPress={() => setActiveSortItem("recent")}
+          >
             <Text style={styles.sortListItemText}>Recent</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            style={sortStyle(activeSortItem === 'favorite')}
+            style={sortStyle(activeSortItem === "favorite")}
             activeOpacity={0.8}
-            onPress={() => setActiveSortItem('favorite')}>
+            onPress={() => setActiveSortItem("favorite")}
+          >
             <Text style={styles.sortListItemText}>Favorite</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            style={sortStyle(activeSortItem === 'rating')}
+            style={sortStyle(activeSortItem === "rating")}
             activeOpacity={0.8}
-            onPress={() => setActiveSortItem('rating')}>
+            onPress={() => setActiveSortItem("rating")}
+          >
             <Text style={styles.sortListItemText}>Rating</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            style={sortStyle(activeSortItem === 'popular')}
+            style={sortStyle(activeSortItem === "popular")}
             activeOpacity={0.8}
-            onPress={() => setActiveSortItem('popular')}>
+            onPress={() => setActiveSortItem("popular")}
+          >
             <Text style={styles.sortListItemText}>Popular</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            style={sortStyle(activeSortItem === 'trending')}
+            style={sortStyle(activeSortItem === "trending")}
             activeOpacity={0.8}
-            onPress={() => setActiveSortItem('trending')}>
+            onPress={() => setActiveSortItem("trending")}
+          >
             <Text style={styles.sortListItemText}>Trending</Text>
           </TouchableOpacity>
         </View>
 
-        {/* Backend
-        {restaurants?.map(item => (
-          <RestaurantMediumCard 
-          {...item} key={item?.id}
-           />
-        ))} */}
+        {/* Backend */}
+        {restaurant.length > 0 &&
+          restaurant?.map((item) => (
+            <RestaurantMediumCard
+              item={item}
+              navigation={navigation}
+              key={item?.id}
+            />
+          ))}
 
-          {/* Static Part */}
+        {/* Static Part */}
+        {/* <RestaurantMediumCard></RestaurantMediumCard>
         <RestaurantMediumCard></RestaurantMediumCard>
         <RestaurantMediumCard></RestaurantMediumCard>
         <RestaurantMediumCard></RestaurantMediumCard>
         <RestaurantMediumCard></RestaurantMediumCard>
         <RestaurantMediumCard></RestaurantMediumCard>
-        <RestaurantMediumCard></RestaurantMediumCard>
-        <RestaurantMediumCard></RestaurantMediumCard>
+        <RestaurantMediumCard></RestaurantMediumCard> */}
 
         <Separator height={Display.setHeight(5)} />
       </ScrollView>
     </View>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
@@ -192,25 +211,25 @@ const styles = StyleSheet.create({
   backgroundCurvedContainer: {
     backgroundColor: Colors.DEFAULT_GREEN,
     height: 2000,
-    position: 'absolute',
+    position: "absolute",
     top: -1 * (2000 - 230),
     width: 2000,
     borderRadius: 2000,
-    alignSelf: 'center',
+    alignSelf: "center",
     zIndex: -1,
   },
   headerContainer: {
-    justifyContent: 'space-between',
+    justifyContent: "space-between",
   },
   locationContainer: {
-    flexDirection: 'row',
-    alignItems: 'baseline',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    alignItems: "baseline",
+    justifyContent: "space-between",
     marginTop: 20,
     marginHorizontal: 90,
   },
   locationText: {
-    color: '#fff',
+    color: "#fff",
     marginLeft: 30,
     fontSize: 13,
     lineHeight: 13 * 1.4,
@@ -225,32 +244,32 @@ const styles = StyleSheet.create({
   alertBadge: {
     borderRadius: 32,
     backgroundColor: Colors.DEFAULT_YELLOW,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     height: 16,
     width: 16,
-    position: 'absolute',
+    position: "absolute",
     right: -35,
     top: 25,
   },
   alertBadgeText: {
-    color: '#fff',
+    color: "#fff",
     fontSize: 10,
     lineHeight: 10 * 1.4,
   },
   searchContainer: {
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
     height: 45,
     borderRadius: 8,
     marginHorizontal: 20,
     marginTop: 20,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
   },
   searchSection: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     marginLeft: 10,
   },
   searchText: {
@@ -260,8 +279,8 @@ const styles = StyleSheet.create({
     marginLeft: 10,
   },
   categoriesContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-evenly',
+    flexDirection: "row",
+    justifyContent: "space-evenly",
     marginTop: 20,
   },
   listContainer: {
@@ -272,9 +291,9 @@ const styles = StyleSheet.create({
     marginTop: 30,
   },
   listHeader: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
     marginHorizontal: 20,
     marginBottom: 5,
   },
@@ -289,17 +308,17 @@ const styles = StyleSheet.create({
     lineHeight: 13 * 1.4,
   },
   sortListContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-evenly',
-    alignItems: 'center',
-    backgroundColor: '#fff',
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+    alignItems: "center",
+    backgroundColor: "#fff",
     marginTop: 8,
     elevation: 1,
   },
   sortListItem: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     borderBottomWidth: 1,
     borderBottomColor: Colors.DEFAULT_YELLOW,
     height: 40,

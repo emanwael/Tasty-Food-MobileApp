@@ -1,35 +1,50 @@
-import React, {useState} from 'react';
-import {View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native';
-import Colors from '../assets/Styles/Colors';
-import Images from '../assets/Styles/Images';
-import Separator from '../assets/Styles/Separator';
-import Display from '../assets/Styles/Display';
+import React, { useState } from "react";
+import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
+import Colors from "../assets/Styles/Colors";
+import Images from "../assets/Styles/Images";
+import Separator from "../assets/Styles/Separator";
+import Display from "../assets/Styles/Display";
 
-const FoodCard = () => {
+const FoodCard = (props) => {
+  const { item, navigate } = props;
+  const { _id, meal_name, meal_img, price, description } = item;
+
+  // console.log(props);
+  // if (props.route) {
+  //   console.log(props.route.params.menu);
+  // }
   return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={() => navigate()} activeOpacity={0.8}>
+      <TouchableOpacity
+        onPress={() => {
+          navigate(item);
+        }}
+        activeOpacity={0.8}
+      >
         <Image
           style={styles.image}
           source={{
-            uri: ""
+            uri: meal_img,
           }}
         />
       </TouchableOpacity>
       <View style={styles.detailsContainer}>
-        <TouchableOpacity onPress={() => navigate()} activeOpacity={0.8}>
+        <TouchableOpacity
+          onPress={() => {
+            navigate(item);
+          }}
+          activeOpacity={0.8}
+        >
           <Text numberOfLines={1} style={styles.titleText}>
-            name
+            {meal_name}
           </Text>
           <Text numberOfLines={2} style={styles.descriptionText}>
-            description
+            {description}
           </Text>
         </TouchableOpacity>
         <View style={styles.footerContainer}>
-          <Text style={styles.priceText}>$price</Text>
-          <View style={styles.itemAddContainer}>
-      
-          </View>
+          <Text style={styles.priceText}>${price}</Text>
+          <View style={styles.itemAddContainer}></View>
         </View>
       </View>
     </View>
@@ -39,9 +54,9 @@ const FoodCard = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: 'row',
+    flexDirection: "row",
     marginVertical: 5,
-    alignItems: 'center',
+    alignItems: "center",
     borderRadius: 10,
     elevation: 2,
     backgroundColor: Colors.LIGHT_GREY,
@@ -75,14 +90,14 @@ const styles = StyleSheet.create({
     lineHeight: 14 * 1.4,
   },
   footerContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
     marginHorizontal: 5,
   },
   itemAddContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     backgroundColor: Colors.LIGHT_GREY2,
     paddingVertical: 5,
     paddingHorizontal: 10,

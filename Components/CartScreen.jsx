@@ -1,7 +1,7 @@
-import React from 'react'
-import Entypo from 'react-native-vector-icons/Entypo';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import AntDesign from 'react-native-vector-icons/AntDesign';
+import React from "react";
+import Entypo from "react-native-vector-icons/Entypo";
+import Ionicons from "react-native-vector-icons/Ionicons";
+import AntDesign from "react-native-vector-icons/AntDesign";
 import {
   View,
   Text,
@@ -10,19 +10,19 @@ import {
   Image,
   ScrollView,
   TouchableOpacity,
-} from 'react-native';
-import Colors from '../assets/Styles/Colors';
-import Display from '../assets/Styles/Display';
-import Separator from '../assets/Styles/Separator';
-import Images from '../assets/Styles/Images';
-import { useSelector } from 'react-redux';
-
-
-
+} from "react-native";
+import Colors from "../assets/Styles/Colors";
+import Display from "../assets/Styles/Display";
+import Separator from "../assets/Styles/Separator";
+import Images from "../assets/Styles/Images";
+import { useSelector } from "react-redux";
+import FoodCard from "./FoodCard";
 
 export default function CartScreen({ navigation }) {
   // const cart = useSelector(state => state?.cartState?.cart);
-  const { cartItems, totalPrice, countItems } = useSelector((store) => store.cartSlice);
+  const { cartItems, totalPrice, countItems } = useSelector(
+    (store) => store.cartSlice
+  );
 
   return (
     <>
@@ -45,29 +45,28 @@ export default function CartScreen({ navigation }) {
           <>
             <ScrollView>
               <View style={styles.foodList}>
-
-                {cartItems?.map(item => (
-                  <Text>{item?.meals_name}</Text>
-                  /*<FoodCard
- 
-                     key={item?._id}
-                     navigate={() =>
-                       navigation.navigate('foodscreen', { id: item?._id })
-                     }
-                   />*/
+                {cartItems?.map((item) => (
+                  // <Text>{item?.meals_name}</Text>
+                  <FoodCard
+                    // key={item?._id}
+                    item={item}
+                    navigate={() => navigation.navigate("foodscreen")}
+                  />
                 ))}
               </View>
               <View style={styles.amountContainer}>
                 <View style={styles.amountSubContainer}>
-                  <Text style={styles.amountLabelText}>Item Total</Text>
-                  <Text style={styles.amountText}>
-                    $ {countItems}
-                  </Text>
+                  <Text style={styles.amountLabelText}>Total Meals</Text>
+                  <Text style={styles.amountText}> {countItems}</Text>
                 </View>
                 <View style={styles.amountSubContainer}>
                   <Text style={styles.amountLabelText}>Delivery Fee</Text>
                   <Text
-                    style={{ ...styles.amountText, color: Colors.DEFAULT_GREEN }}>
+                    style={{
+                      ...styles.amountText,
+                      color: Colors.DEFAULT_GREEN,
+                    }}
+                  >
                     Free
                   </Text>
                 </View>
@@ -78,7 +77,12 @@ export default function CartScreen({ navigation }) {
                   $ {/*cart?.metaData?.grandTotal?.toFixed(2)*/}
                 </Text>
               </View>
-              <TouchableOpacity style={styles.checkoutButton}>
+              <TouchableOpacity
+                style={styles.checkoutButton}
+                onPress={() => {
+                  navigation.navigate("payment");
+                }}
+              >
                 <View style={styles.rowAndCenter}>
                   <Ionicons
                     name="cart-outline"
@@ -107,18 +111,21 @@ export default function CartScreen({ navigation }) {
             </Text>
             <TouchableOpacity style={styles.addButtonEmpty}>
               <AntDesign name="plus" color={Colors.DEFAULT_WHITE} size={20} />
-              <Text style={styles.addButtonEmptyText} onPress={() => {
-                navigation.navigate("homeScreen")
-              }} >Add Food</Text>
+              <Text
+                style={styles.addButtonEmptyText}
+                onPress={() => {
+                  navigation.navigate("homeScreen");
+                }}
+              >
+                Add Food
+              </Text>
             </TouchableOpacity>
             <Separator height={Display.setHeight(15)} />
           </View>
         )}
       </View>
-
-
     </>
-  )
+  );
 }
 const styles = StyleSheet.create({
   container: {
@@ -126,8 +133,8 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.DEFAULT_WHITE,
   },
   headerContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     paddingVertical: 10,
     paddingHorizontal: 20,
   },
@@ -135,20 +142,20 @@ const styles = StyleSheet.create({
     fontSize: 20,
     lineHeight: 20 * 1.4,
     width: Display.setWidth(80),
-    textAlign: 'center',
+    textAlign: "center",
   },
   foodList: {
     marginHorizontal: Display.setWidth(4),
   },
   promoCodeContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     marginHorizontal: Display.setWidth(4),
     paddingVertical: 15,
     marginTop: 10,
     borderTopWidth: 0.5,
     borderBottomWidth: 0.5,
-    justifyContent: 'space-between',
+    justifyContent: "space-between",
   },
   promoCodeText: {
     fontSize: 15,
@@ -157,8 +164,8 @@ const styles = StyleSheet.create({
     marginLeft: 10,
   },
   rowAndCenter: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
   },
   amountContainer: {
     marginHorizontal: Display.setWidth(4),
@@ -166,9 +173,9 @@ const styles = StyleSheet.create({
     borderBottomWidth: 0.5,
   },
   amountSubContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
     marginVertical: 3,
   },
   amountLabelText: {
@@ -185,8 +192,8 @@ const styles = StyleSheet.create({
     marginHorizontal: Display.setWidth(4),
     paddingVertical: 15,
     borderBottomWidth: 0.5,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    justifyContent: "space-between",
   },
   totalText: {
     fontSize: 20,
@@ -194,13 +201,13 @@ const styles = StyleSheet.create({
     color: Colors.DEFAULT_BLACK,
   },
   checkoutButton: {
-    flexDirection: 'row',
+    flexDirection: "row",
     width: Display.setWidth(80),
     backgroundColor: Colors.DEFAULT_GREEN,
-    alignSelf: 'center',
+    alignSelf: "center",
     paddingHorizontal: 20,
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    justifyContent: "space-between",
+    alignItems: "center",
     borderRadius: 10,
     height: Display.setHeight(7),
     marginTop: 10,
@@ -213,8 +220,8 @@ const styles = StyleSheet.create({
   },
   emptyCartContainer: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   emptyCartText: {
     fontSize: 30,
@@ -227,15 +234,15 @@ const styles = StyleSheet.create({
     color: Colors.INACTIVE_GREY,
   },
   addButtonEmpty: {
-    flexDirection: 'row',
+    flexDirection: "row",
     backgroundColor: Colors.DEFAULT_YELLOW,
     borderRadius: 8,
     paddingHorizontal: Display.setWidth(4),
     paddingVertical: 5,
     marginTop: 10,
-    justifyContent: 'space-evenly',
+    justifyContent: "space-evenly",
     elevation: 3,
-    alignItems: 'center',
+    alignItems: "center",
   },
   addButtonEmptyText: {
     fontSize: 12,
