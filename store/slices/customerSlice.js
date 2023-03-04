@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import baseUrl from "./baseUrl";
 
-const baseURL = `http://${baseUrl}/customers`;
+const baseURL = `http://${baseUrl}:5100/customers`;
 let initialState = {
   customerData: {},
   errors: [],

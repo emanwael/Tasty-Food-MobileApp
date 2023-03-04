@@ -146,7 +146,9 @@ export default function Signin({ navigation }) {
                   password,
                 })
               );
+              // navigation.navigate("HomeScreen");
               //TODO: Navigate to home screen
+              // console.log(customerData._id);
             }}
             activeOpacity={0.8}
           >
