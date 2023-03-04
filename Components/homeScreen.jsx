@@ -10,17 +10,38 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Feather from 'react-native-vector-icons/Feather';
 
 import Colors from "../assets/Styles/Colors";
+import Display from '../assets/Styles/Display';
+
 import Mock from "../assets/Styles/Mock";
+import Separator from "../assets/Styles/Separator";
+import RestaurantCard from "./restaurantCard";
+import { StyleSheet } from "react-native";
+import { useState } from "react";
+import CategoryMenuItem from "./CategoryMenuItem";
+import RestaurantMediumCard from "./RestaurantMediumCard";
 
 const sortStyle = isActive =>
   isActive
     ? styles.sortListItem
     : {...styles.sortListItem, borderBottomColor: Colors.DEFAULT_WHITE};
 
-export default function HomeScreen() {
+export default function HomeScreen({navigation}) {
     const [activeCategory, setActiveCategory] = useState();
     const [restaurants, setRestaurants] = useState(null);
     const [activeSortItem, setActiveSortItem] = useState('recent');
+
+  //backend
+    // useEffect(() => {
+    //   const unsubscribe = navigation.addListener('focus', () => {
+    //     RestaurantService.getRestaurants().then(response => {
+    //       if (response?.status) {
+    //         setRestaurants(response?.data);
+    //       }
+    //     });
+    //   });
+    //   return unsubscribe;
+    // }, []);
+
   return (
     <View style={styles.container}>
       <StatusBar
@@ -48,7 +69,7 @@ export default function HomeScreen() {
             name="bell"
             size={24}
             color={Colors.DEFAULT_WHITE}
-            style={{position: 'absolute', right: 0}}
+            style={{position: 'absolute', right: -30 , top: 30}}
           />
           <View style={styles.alertBadge}>
             <Text style={styles.alertBadgeText}>12</Text>
@@ -71,7 +92,9 @@ export default function HomeScreen() {
           />
         </View>
         <View style={styles.categoriesContainer}>
-          {Mock.CATEGORIES.map(({name, logo}) => (
+          <CategoryMenuItem></CategoryMenuItem>
+          {/** Back end-->  CategoryMenuItem */}
+          {/* {Mock.CATEGORIES.map(({name, logo}) => (
             <CategoryMenuItem
               key={name}
               name={name}
@@ -79,7 +102,7 @@ export default function HomeScreen() {
               activeCategory={activeCategory}
               setActiveCategory={setActiveCategory}
             />
-          ))}
+          ))} */}
         </View>
       </View>
       <ScrollView style={styles.listContainer}>
@@ -88,7 +111,9 @@ export default function HomeScreen() {
             <Text style={styles.listHeaderTitle}>Top Rated</Text>
             <Text style={styles.listHeaderSubtitle}>See All</Text>
           </View>
-          <FlatList
+          <RestaurantCard></RestaurantCard>
+          {/* Backend  */}
+          {/* <FlatList
             data={restaurants}
             keyExtractor={item => item?.id}
             horizontal
@@ -103,7 +128,7 @@ export default function HomeScreen() {
                 }
               />
             )}
-          />
+          /> */}
         </View>
         <View style={styles.sortListContainer}>
           <TouchableOpacity
@@ -137,9 +162,23 @@ export default function HomeScreen() {
             <Text style={styles.sortListItemText}>Trending</Text>
           </TouchableOpacity>
         </View>
+
+        {/* Backend
         {restaurants?.map(item => (
-          <RestaurantMediumCard {...item} key={item?.id} />
-        ))}
+          <RestaurantMediumCard 
+          {...item} key={item?.id}
+           />
+        ))} */}
+
+          {/* Static Part */}
+        <RestaurantMediumCard></RestaurantMediumCard>
+        <RestaurantMediumCard></RestaurantMediumCard>
+        <RestaurantMediumCard></RestaurantMediumCard>
+        <RestaurantMediumCard></RestaurantMediumCard>
+        <RestaurantMediumCard></RestaurantMediumCard>
+        <RestaurantMediumCard></RestaurantMediumCard>
+        <RestaurantMediumCard></RestaurantMediumCard>
+
         <Separator height={Display.setHeight(5)} />
       </ScrollView>
     </View>
@@ -162,27 +201,27 @@ const styles = StyleSheet.create({
     zIndex: -1,
   },
   headerContainer: {
-    justifyContent: 'space-evenly',
+    justifyContent: 'space-between',
   },
   locationContainer: {
     flexDirection: 'row',
-    alignItems: 'center',
-    marginTop: 10,
-    marginHorizontal: 20,
+    alignItems: 'baseline',
+    justifyContent: 'space-between',
+    marginTop: 20,
+    marginHorizontal: 90,
   },
   locationText: {
-    color: Colors.DEFAULT_WHITE,
-    marginLeft: 5,
+    color: '#fff',
+    marginLeft: 30,
     fontSize: 13,
     lineHeight: 13 * 1.4,
-    fontFamily: Fonts.POPPINS_MEDIUM,
+    marginTop: 30,
   },
   selectedLocationText: {
-    color: Colors.DEFAULT_YELLOW,
-    marginLeft: 5,
+    color: Colors.DEFAULT_WHITE,
+    marginLeft: 20,
     fontSize: 14,
     lineHeight: 14 * 1.4,
-    fontFamily: Fonts.POPPINS_MEDIUM,
   },
   alertBadge: {
     borderRadius: 32,
@@ -192,17 +231,16 @@ const styles = StyleSheet.create({
     height: 16,
     width: 16,
     position: 'absolute',
-    right: -2,
-    top: -10,
+    right: -35,
+    top: 25,
   },
   alertBadgeText: {
-    color: Colors.DEFAULT_WHITE,
+    color: '#fff',
     fontSize: 10,
     lineHeight: 10 * 1.4,
-    fontFamily: Fonts.POPPINS_BOLD,
   },
   searchContainer: {
-    backgroundColor: Colors.DEFAULT_WHITE,
+    backgroundColor: '#fff',
     height: 45,
     borderRadius: 8,
     marginHorizontal: 20,
@@ -220,7 +258,6 @@ const styles = StyleSheet.create({
     color: Colors.DEFAULT_GREY,
     fontSize: 16,
     lineHeight: 16 * 1.4,
-    fontFamily: Fonts.POPPINS_MEDIUM,
     marginLeft: 10,
   },
   categoriesContainer: {
@@ -246,19 +283,17 @@ const styles = StyleSheet.create({
     color: Colors.DEFAULT_BLACK,
     fontSize: 16,
     lineHeight: 16 * 1.4,
-    fontFamily: Fonts.POPPINS_MEDIUM,
   },
   listHeaderSubtitle: {
     color: Colors.DEFAULT_YELLOW,
     fontSize: 13,
     lineHeight: 13 * 1.4,
-    fontFamily: Fonts.POPPINS_MEDIUM,
   },
   sortListContainer: {
     flexDirection: 'row',
     justifyContent: 'space-evenly',
     alignItems: 'center',
-    backgroundColor: Colors.DEFAULT_WHITE,
+    backgroundColor: '#fff',
     marginTop: 8,
     elevation: 1,
   },
@@ -274,6 +309,5 @@ const styles = StyleSheet.create({
     color: Colors.DEFAULT_BLACK,
     fontSize: 13,
     lineHeight: 13 * 1.4,
-    fontFamily: Fonts.POPPINS_SEMI_BOLD,
   },
 });
