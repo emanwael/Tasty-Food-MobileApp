@@ -11,13 +11,16 @@ import axios from "axios";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { cartActions } from "../store/slices/cart";
-import { useState } from "react";
+// import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
+import { useState, useEffect } from "react";
 import { CardField, useStripe } from "@stripe/stripe-react-native";
 import baseUrl from "../store/slices/baseUrl";
 
-export default function Payment() {
+export default function Payment({ navigation }) {
   const { cartItems, totalPrice } = useSelector((state) => state.cartSlice);
   const { clearItemsCart } = cartActions;
+  const { customerData } = useSelector((state) => state.customers);
+  const { customer_name, phone_number, address } = customerData;
   const dispatch = useDispatch();
 
   const [isProcessing, setProcessing] = useState(false);
@@ -72,19 +75,20 @@ export default function Payment() {
           address: "",
         });
         dispatch(clearItemsCart());
+        navigation.navigate("HomeScreen");
       }, 5000);
 
       // Handle successful payment
     }
   };
 
-  // useEffect(() => {
-  //   setCredentials({
-  //     name: customer_name,
-  //     phone: phone_number,
-  //     address,
-  //   });
-  // }, []);
+  useEffect(() => {
+    setCredentials({
+      name: customer_name,
+      phone: phone_number,
+      address,
+    });
+  }, []);
 
   return (
     <View style={styles.container}>

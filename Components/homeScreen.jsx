@@ -21,6 +21,8 @@ import RestaurantMediumCard from "./RestaurantMediumCard";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllrestaurant } from "../store/slices/resturants";
 import axios from "axios";
+import { TextInput } from "react-native-gesture-handler";
+import BottonTab from "./buttonTab";
 
 const sortStyle = (isActive) =>
   isActive
@@ -29,9 +31,10 @@ const sortStyle = (isActive) =>
 
 export default function HomeScreen(props) {
   const { navigation } = props;
-  const [activeCategory, setActiveCategory] = useState();
-  const [activeSortItem, setActiveSortItem] = useState("recent");
+  const [activeCategory, setActiveCategory] = useState("All");
+  // const [activeSortItem, setActiveSortItem] = useState("recent");
   const { restaurant } = useSelector((state) => state.resturantSlice);
+  const [CopyRestaurant, setCopyRestaurant] = useState(restaurant);
 
   // const { restaurant_name, _id, logo } = restaurant[0];
   const dispatch = useDispatch();
@@ -85,24 +88,27 @@ export default function HomeScreen(props) {
             <Text style={styles.alertBadgeText}>12</Text>
           </View>
         </View>
-        <View style={styles.searchContainer}>
-          <View style={styles.searchSection}>
+        {/* <View style={styles.searchContainer}>
+          <Text style={styles.searchSection}>
             <Ionicons
               name="search-outline"
               size={25}
               color={Colors.DEFAULT_GREY}
             />
-            <Text style={styles.searchText}>Search..</Text>
-          </View>
+            <TextInput style={styles.searchText} />
+          </Text>
           <Feather
             name="sliders"
             size={20}
             color={Colors.DEFAULT_YELLOW}
             style={{ marginRight: 10 }}
           />
-        </View>
+        </View> */}
         <View style={styles.categoriesContainer}>
-          <CategoryMenuItem></CategoryMenuItem>
+          <CategoryMenuItem
+            activeCategory={activeCategory}
+            setActiveCategory={setActiveCategory}
+          ></CategoryMenuItem>
           {/** Back end-->  CategoryMenuItem */}
           {/* {Mock.CATEGORIES.map(({name, logo}) => (
             <CategoryMenuItem
@@ -121,7 +127,7 @@ export default function HomeScreen(props) {
             <Text style={styles.listHeaderTitle}>Top Rated</Text>
             <Text style={styles.listHeaderSubtitle}>See All</Text>
           </View>
-          <RestaurantCard></RestaurantCard>
+          {/* <RestaurantCard></RestaurantCard> */}
           {/* Backend  */}
           {/* <FlatList
             data={restaurants}
@@ -140,7 +146,7 @@ export default function HomeScreen(props) {
             )}
           /> */}
         </View>
-        <View style={styles.sortListContainer}>
+        {/* <View style={styles.sortListContainer}>
           <TouchableOpacity
             style={sortStyle(activeSortItem === "recent")}
             activeOpacity={0.8}
@@ -176,11 +182,15 @@ export default function HomeScreen(props) {
           >
             <Text style={styles.sortListItemText}>Trending</Text>
           </TouchableOpacity>
-        </View>
+        </View> */}
 
         {/* Backend */}
-        {restaurant.length > 0 &&
-          restaurant?.map((item) => (
+        {CopyRestaurant.length > 0 &&
+          CopyRestaurant?.filter((item) => {
+            return activeCategory == "All"
+              ? item
+              : item.category == activeCategory;
+          }).map((item) => (
             <RestaurantMediumCard
               item={item}
               navigation={navigation}
@@ -199,6 +209,7 @@ export default function HomeScreen(props) {
 
         <Separator height={Display.setHeight(5)} />
       </ScrollView>
+      {/* <BottonTab /> */}
     </View>
   );
 }
@@ -281,7 +292,8 @@ const styles = StyleSheet.create({
   categoriesContainer: {
     flexDirection: "row",
     justifyContent: "space-evenly",
-    marginTop: 20,
+    marginTop: 50,
+    marginBottom: 30,
   },
   listContainer: {
     paddingVertical: 5,

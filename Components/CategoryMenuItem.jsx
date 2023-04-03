@@ -16,83 +16,84 @@ const CategoryMenuItem = ({
     //   style={styles.category()}>
     //   <Image
     //     source={Images[logo]}
-    //     style={styles.categoryIcon(activeCategory === name)}
+    //     style={styles.categoryIcon(activeCategory )}
     //   />
     //   <Text style={styles.categoryText(activeCategory === name)}>{name}</Text>
     // </TouchableOpacity>
     ///////////////////////////////////////////////////////////////////////////////////////////////
     <>
       <TouchableOpacity
-        // onPress={() => setActiveCategory(name)}
+        onPress={() => {
+          setActiveCategory("All"), console.log(activeCategory);
+        }}
+        style={styles.category()}
+      >
+        <Image
+          source={require("../assets/images/plate.png")}
+          // source={Images[logo]}
+          style={styles.categoryIcon(activeCategory)}
+        />
+        <Text style={styles.categoryText(activeCategory)}>
+          All
+          {/* {name} */}
+        </Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        onPress={() => setActiveCategory("Burger")}
         style={styles.category()}
       >
         <Image
           source={require("../assets/images/burger.png")}
           // source={Images[logo]}
-          style={styles.categoryIcon(activeCategory === name)}
+          style={styles.categoryIcon(activeCategory)}
         />
-        <Text style={styles.categoryText(activeCategory === name)}>
-          BURGER
+        <Text style={styles.categoryText(activeCategory)}>
+          Burger
           {/* {name} */}
         </Text>
       </TouchableOpacity>
 
       <TouchableOpacity
-        // onPress={() => setActiveCategory(name)}
+        onPress={() => setActiveCategory("Sweets")}
         style={styles.category()}
       >
         <Image
           source={require("../assets/images/dessert.png")}
           // source={Images[logo]}
-          style={styles.categoryIcon(activeCategory === name)}
+          style={styles.categoryIcon(activeCategory)}
         />
-        <Text style={styles.categoryText(activeCategory === name)}>
-          SWEETS
+        <Text style={styles.categoryText(activeCategory)}>
+          Sweets
           {/* {name} */}
         </Text>
       </TouchableOpacity>
 
       <TouchableOpacity
-        // onPress={() => setActiveCategory(name)}
+        onPress={() => setActiveCategory("Bakery")}
         style={styles.category()}
       >
         <Image
-          source={require("../assets/images/fried_chicken.png")}
+          source={require("../assets/images/berddd.png")}
           // source={Images[logo]}
-          style={styles.categoryIcon(activeCategory === name)}
+          style={styles.categoryIcon(activeCategory)}
         />
-        <Text style={styles.categoryText(activeCategory === name)}>
-          BAKERY
+        <Text style={styles.categoryText(activeCategory)}>
+          Bakery
           {/* {name} */}
         </Text>
       </TouchableOpacity>
 
       <TouchableOpacity
-        // onPress={() => setActiveCategory(name)}
-        style={styles.category()}
-      >
-        <Image
-          source={require("../assets/images/drinks.png")}
-          // source={Images[logo]}
-          style={styles.categoryIcon(activeCategory === name)}
-        />
-        <Text style={styles.categoryText(activeCategory === name)}>
-          Drinks
-          {/* {name} */}
-        </Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity
-        // onPress={() => setActiveCategory(name)}
+        onPress={() => setActiveCategory("Pizza")}
         style={styles.category()}
       >
         <Image
           source={require("../assets/images/pizza.png")}
           // source={Images[logo]}
-          style={styles.categoryIcon(activeCategory === name)}
+          style={styles.categoryIcon(activeCategory)}
         />
-        <Text style={styles.categoryText(activeCategory === name)}>
-          PIZZA
+        <Text style={styles.categoryText(activeCategory)}>
+          Pizza
           {/* {name} */}
         </Text>
       </TouchableOpacity>
